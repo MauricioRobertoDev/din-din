@@ -16,9 +16,11 @@
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^7.0",
+        "nunomaduro/collision": "^6.1",
         "nunomaduro/larastan": "^2.0",
-        "phpunit/phpunit": "^10.0",
+        "pestphp/pest": "^1.22",
+        "pestphp/pest-plugin-laravel": "^1.4",
+        "phpunit/phpunit": "^9.6",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
@@ -47,7 +49,8 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "phpstan": "@php ./vendor/bin/phpstan analyze"
+        "phpstan": "@php ./vendor/bin/phpstan analyze",
+        "pest": "@php ./vendor/bin/pest"
     },
     "extra": {
         "laravel": {
