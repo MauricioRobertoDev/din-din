@@ -4,22 +4,33 @@
     </div>
 
     <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    @if (session('status'))
+        <div class="mb-4 text-sm font-medium text-green-600">
+            {{ session('status') }}
+        </div>
+    @endif
 
-    <form method="POST" action="{{ route('password.email') }}">
+    <form
+        method="POST"
+        action="{{ route('password.email') }}"
+    >
         @csrf
 
         <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        <x-input.text
+            :label="__('Email')"
+            class="block w-full"
+            type="email"
+            name="email"
+            :value="old('email')"
+            required
+            autofocus
+        />
 
         <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
+            <x-button.primary class="w-full">
                 {{ __('Email Password Reset Link') }}
-            </x-primary-button>
+            </x-button.primary>
         </div>
     </form>
 </x-guest-layout>
