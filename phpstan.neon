@@ -20,10 +20,10 @@ parameters:
 
         # Pest implicitly binds $this to the current test case
         # @see https://pestphp.com/docs/underlying-test-case
-        # -
-        #    message: '#^Undefined variable: \$this$#'
-        #    paths:
-        #        - tests/*
+         -
+            message: '#^Undefined variable: \$this$#'
+            paths:
+                - tests/*
 
     # Level 9 is the highest level
     level: 5
