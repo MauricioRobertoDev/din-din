@@ -1,0 +1,6 @@
+#!/bin/sh
+REGEX_BRANCH_ID="(DIN-[0-9]+)"
+BRANCH_NAME=$(git symbolic-ref --short HEAD)
+BRANCH_ID=$(echo "$BRANCH_NAME" | grep -o -E "$REGEX_BRANCH_ID")
+
+if [ -z $BRANCH_ID ]; then echo "$(cat "$1")" > "$1"; else echo "$BRANCH_ID $(cat "$1")" > "$1"; fi

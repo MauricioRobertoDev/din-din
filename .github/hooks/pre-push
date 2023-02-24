@@ -1,0 +1,43 @@
+#!/bin/sh
+# git config --local core.hooksPath .github/hooks
+# chmod ug+x .github/**/*
+
+Reset='\033[0m'
+Blue='\033[1;34m'
+Red='\033[1;31m'
+Green='\033[0;32m'
+
+BRANCH_NAME=$(git branch | grep '*' | sed 's/* //')
+
+# ----------------
+# 1. Laravel Stan
+echo "Rodando Laravel Stan na branch: ${Blue}" $BRANCH_NAME "${Reset}"
+./vendor/bin/phpstan analyze
+STATUS_CODE=$?
+if [ $STATUS_CODE -ne 0 ]; then
+    echo "${Red}Erro - Laravel Stan......${Reset}"
+    exit 1
+fi
+echo "${Green} Código OK...${Reset}\r\n"
+
+# ----------------
+# 2. Laravel Pint
+echo "Rodando Laravel Pint na branch: ${Blue}" $BRANCH_NAME "${Reset}"
+./vendor/bin/pint
+STATUS_CODE=$?
+if [ $STATUS_CODE -ne 0 ]; then
+    echo "${Red}Error - Laravel Pint......${Reset}"
+    exit 1
+fi
+echo "${Green} Estilo OK...${Reset}\r\n"
+
+# ----------------
+# 3. Tests
+echo "Rodando Testes na branch: ${Blue}" $BRANCH_NAME "${Reset}"
+./vendor/bin/pest
+STATUS_CODE=$?
+if [ $STATUS_CODE -ne 0 ]; then
+    echo "${Red}Erro - Testes......${Reset}"
+    exit 1
+fi
+echo "${Green} Testes OK...${Reset}\r\n"
