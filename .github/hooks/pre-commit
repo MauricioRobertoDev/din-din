@@ -41,3 +41,14 @@ if [ $STATUS_CODE -ne 0 ]; then
     exit 1
 fi
 echo "${Green} Testes OK...${Reset}\r\n"
+
+# ----------------
+# 4. Prettier
+echo "Rodando Prettier na branch: ${Blue}" $BRANCH_NAME "${Reset}"
+./node_modules/.bin/prettier --write resources/**/*.blade.php
+STATUS_CODE=$?
+if [ $STATUS_CODE -ne 0 ]; then
+    echo "${Red}Erro - Prettier......${Reset}"
+    exit 1
+fi
+echo "${Green} Prettier OK...${Reset}\r\n"
