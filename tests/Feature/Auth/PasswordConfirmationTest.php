@@ -3,32 +3,42 @@
 declare(strict_types=1);
 
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
 
-test('confirm password screen can be rendered', function () {
-    $user = User::factory()->create();
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
 
-    $response = $this->actingAs($user)->get('/confirm-password');
-
-    $response->assertStatus(200);
+test('Deve redirecionar caso usuário não esteja logado', function () {
+    get(route('password.confirm'))
+        ->assertRedirect(route('login'));
 });
 
-test('password can be confirmed', function () {
+test('A rota deve estar disponível e funcional', function () {
     $user = User::factory()->create();
 
-    $response = $this->actingAs($user)->post('/confirm-password', [
+    actingAs($user)->get(route('password.confirm'))
+        ->assertStatus(200);
+});
+
+test('Deve confirmar a senha', function () {
+    $user = User::factory()->create();
+    $data = [
         'password' => 'password',
-    ]);
+    ];
 
-    $response->assertRedirect();
-    $response->assertSessionHasNoErrors();
+    actingAs($user)
+        ->post(route('password.confirm'), $data)
+        ->assertRedirect(RouteServiceProvider::HOME)
+        ->assertSessionHasNoErrors();
 });
 
-test('password is not confirmed with invalid password', function () {
+test('Não deve confirmar a senha caso esteja errada', function () {
     $user = User::factory()->create();
-
-    $response = $this->actingAs($user)->post('/confirm-password', [
+    $data = [
         'password' => 'wrong-password',
-    ]);
+    ];
 
-    $response->assertSessionHasErrors();
+    actingAs($user)
+        ->post(route('password.confirm'), $data)
+        ->assertSessionHasErrors();
 });
