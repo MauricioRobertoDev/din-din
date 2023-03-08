@@ -4,20 +4,25 @@ declare(strict_types=1);
 
 use App\Providers\RouteServiceProvider;
 
-test('registration screen can be rendered', function () {
-    $response = $this->get('/register');
+use function Pest\Laravel\assertAuthenticated;
+use function Pest\Laravel\get;
+use function Pest\Laravel\post;
 
-    $response->assertStatus(200);
+test('registration screen can be rendered', function () {
+    get(route('register'))
+        ->assertStatus(200);
 });
 
 test('new users can register', function () {
-    $response = $this->post('/register', [
+    $data = [
         'name' => 'Test User',
         'email' => 'test@example.com',
         'password' => 'password',
         'password_confirmation' => 'password',
-    ]);
+    ];
 
-    $this->assertAuthenticated();
-    $response->assertRedirect(RouteServiceProvider::HOME);
+    post(route('register'), $data)
+        ->assertRedirect(RouteServiceProvider::HOME);
+
+    assertAuthenticated();
 });

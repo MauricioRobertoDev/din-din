@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail as AuthMustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,6 +18,7 @@ class User extends Authenticatable implements AuthMustVerifyEmail
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
+    use MustVerifyEmail;
 
     /**
      * The attributes that are mass assignable.
