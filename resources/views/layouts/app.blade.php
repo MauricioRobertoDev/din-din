@@ -12,7 +12,18 @@
         content="{{ csrf_token() }}"
     />
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>
+        @if (isset($title))
+            {{ $title }} -
+        @endif
+        {{ config('app.name', 'Laravel') }}
+    </title>
+
+    <link
+        rel="icon"
+        type="image/x-icon"
+        href="/svg/logo.svg"
+    >
 
     <!-- Fonts -->
     <link
@@ -22,28 +33,24 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @livewireStyles
+
+    <livewire:styles />
 </head>
 
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
-        @include('layouts.navigation')
+<body
+    class="z-0 flex w-screen h-screen overflow-hidden font-sans antialiased bg-gray-100"
+    x-data="{ openMenu: false }"
+    x-on:toggle-menu.window="openMenu = !openMenu"
+>
+    <x-menu.navbar />
 
-        <!-- Page Heading -->
-        @if (isset($header))
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endif
+    <main
+        class="flex-grow w-full h-full px-4 py-8 overflow-y-auto sm:px-6 sm:py-12 lg:scrollbar-thin lg:scrollbar-thumb-primary-500 lg:scrollbar-track-white"
+    >
+        {{ $slot }}
+    </main>
 
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
-    </div>
-    @livewireScripts
+    <livewire:scripts />
 </body>
 
 </html>
