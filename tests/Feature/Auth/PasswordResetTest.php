@@ -6,10 +6,12 @@ use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Notification;
 
-test('reset password link screen can be rendered', function () {
-    $response = $this->get('/forgot-password');
+use function Pest\Laravel\get;
+use function Pest\Laravel\post;
 
-    $response->assertStatus(200);
+test('reset password link screen can be rendered', function () {
+    get(route('password.request'))
+        ->assertStatus(200);
 });
 
 test('reset password link can be requested', function () {
@@ -17,7 +19,7 @@ test('reset password link can be requested', function () {
 
     $user = User::factory()->create();
 
-    $this->post('/forgot-password', ['email' => $user->email]);
+    post(route('password.email'), ['email' => $user->email]);
 
     Notification::assertSentTo($user, ResetPassword::class);
 });
@@ -27,12 +29,11 @@ test('reset password screen can be rendered', function () {
 
     $user = User::factory()->create();
 
-    $this->post('/forgot-password', ['email' => $user->email]);
+    post(route('password.email'), ['email' => $user->email]);
 
     Notification::assertSentTo($user, ResetPassword::class, function ($notification) {
-        $response = $this->get('/reset-password/'.$notification->token);
-
-        $response->assertStatus(200);
+        get(route('password.reset', [$notification->token]))
+            ->assertStatus(200);
 
         return true;
     });
@@ -43,17 +44,18 @@ test('password can be reset with valid token', function () {
 
     $user = User::factory()->create();
 
-    $this->post('/forgot-password', ['email' => $user->email]);
+    post(route('password.email'), ['email' => $user->email]);
 
     Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user) {
-        $response = $this->post('/reset-password', [
+        $data = [
             'token' => $notification->token,
             'email' => $user->email,
             'password' => 'password',
             'password_confirmation' => 'password',
-        ]);
+        ];
 
-        $response->assertSessionHasNoErrors();
+        post(route('password.store'), $data)
+            ->assertSessionHasNoErrors();
 
         return true;
     });
