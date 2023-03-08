@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 
 use function Pest\Laravel\actingAs;
 
-test('password can be updated', function () {
+test('A senha pode ser atualizada', function () {
     $user = User::factory()->create();
     $data = [
         'current_password' => 'password',
@@ -24,7 +24,7 @@ test('password can be updated', function () {
     expect(Hash::check('new-password', $user->refresh()->password))->toBeTrue();
 });
 
-test('correct password must be provided to update password', function () {
+test('A senha correta deve ser fornecida para atualizar a senha', function () {
     $user = User::factory()->create();
     $data = [
         'current_password' => 'wrong-password',
