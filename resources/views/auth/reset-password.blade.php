@@ -2,6 +2,7 @@
     <form
         method="POST"
         action="{{ route('password.store') }}"
+        class="space-y-4"
     >
         @csrf
 
