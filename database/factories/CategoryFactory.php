@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,7 +24,7 @@ class CategoryFactory extends Factory
             'category_id' => null,
             'name' => fake()->word(),
             'user_id' => User::factory()->create(),
-            'type' => fake()->randomElement(['income', 'expense']),
+            'type' => fake()->randomElement([Transaction::TYPE_INCOME, Transaction::TYPE_EXPENSE]),
         ];
     }
 }
