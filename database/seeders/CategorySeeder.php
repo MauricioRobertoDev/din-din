@@ -15,15 +15,15 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         // receitas
-        $investment = Category::factory()->create(['name' => 'Investimento', 'type' => 'imcome']);
-        Category::factory()->for($investment)->create(['name' => 'Dividendos de Ações', 'type' => 'imcome']);
-        Category::factory()->for($investment)->create(['name' => 'Dividendos de FIs', 'type' => 'imcome']);
+        $investment = Category::factory()->create(['name' => 'Investimento', 'type' => 'income']);
+        Category::factory()->for($investment)->create(['name' => 'Dividendos de Ações', 'type' => 'income']);
+        Category::factory()->for($investment)->create(['name' => 'Dividendos de FIs', 'type' => 'income']);
 
-        $imcome = Category::factory()->create(['name' => 'Renda', 'type' => 'imcome']);
-        Category::factory()->for($imcome)->create(['name' => 'Salário', 'type' => 'imcome']);
-        Category::factory()->for($imcome)->create(['name' => 'Trabalho extra', 'type' => 'imcome']);
+        $income = Category::factory()->create(['name' => 'Renda', 'type' => 'income']);
+        Category::factory()->for($income)->create(['name' => 'Salário', 'type' => 'income']);
+        Category::factory()->for($income)->create(['name' => 'Trabalho extra', 'type' => 'income']);
 
-        Category::factory()->create(['name' => 'Outro (Receitas)', 'type' => 'imcome']);
+        Category::factory()->create(['name' => 'Outro (Receitas)', 'type' => 'income']);
 
         // despesas
         $entertainment = Category::factory()->create(['name' => 'Entreterimento', 'type' => 'expense']);
